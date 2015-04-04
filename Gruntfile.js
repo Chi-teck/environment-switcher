@@ -60,14 +60,14 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-processhtml');
-    //grunt.loadNpmTasks('grunt-crx');
+    grunt.loadNpmTasks('grunt-crx');
 
     var defaultTasks = [
         'clean',
         'copy',
         'concat',
         'processhtml',
-        'crx'
+        //'crx'
     ];
     grunt.registerTask('default', defaultTasks);
 };
