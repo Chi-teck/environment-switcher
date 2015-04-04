@@ -50,9 +50,7 @@ module.exports = function (grunt) {
             "environment-switcher": {
                 "src": "dist",
                 "dest": "dist/environment-switcher.crx",
-                "options": {
-                    "privateKey": "key.pem"
-                }
+                "privateKey": "./ssh/test-key.pem"
             }
         }
 
