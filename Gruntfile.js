@@ -50,7 +50,7 @@ module.exports = function (grunt) {
             "environment-switcher": {
                 "src": "dist",
                 "dest": "dist/environment-switcher.crx",
-                "privateKey": "./ssh/test-key.pem"
+                "privateKey": "~/.ssh/test-key.pem"
             }
         }
 
@@ -60,7 +60,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-processhtml');
-    grunt.loadNpmTasks('grunt-crx');
+    //grunt.loadNpmTasks('grunt-crx');
 
     var defaultTasks = [
         'clean',
