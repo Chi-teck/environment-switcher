@@ -1,0 +1,208 @@
+<div class="main-frame">
+
+  <form ng-click="ctrl.change()" action="#/">
+
+    <h2 class="row project-name">Project name</h2>
+
+    <div class="row clearfix">
+      <div class="large-6 left">
+        <input type="text" placeholder="Example project" ng-model="ctrl.project.name" ng-model-options='{debounce: 50, getterSetter: true}' ng-change="ctrl.change()"/>
+      </div>
+    </div>
+
+    <div class="row clearfix environments-header">
+      <h2 class="left clearfix">Environments</h2>
+
+      <div class="small-3 medium-3 large-3 right create-new-environment">
+        <span class="button tiny secondary right" data-reveal-id="environment-form" ng-click="ctrl.openEnvironmentForm()">Create new environment</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <table>
+        <thead>
+        <tr>
+          <!--<th class="drag-header"></th>-->
+          <th>Name</th>
+          <th>Base URL</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="environment in ctrl.project.environments track by $index">
+          <!--<td class="ui-draggable-handle"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></td>-->
+          <td>{{ environment.name }}</td>
+          <td><a href="{{ environment.baseUrl }}">{{ environment.baseUrl }}</a></td>
+          <td>
+            <span ng-class="{ 'enabled': environment.status, 'disabled': !environment.status }">{{ environment.status | enabledDisabled }}</span>
+          </td>
+          <td>
+            <!--href="#/project/{{ctrl.project.id}}/{{environment.id }}"-->
+            <span class="link" data-reveal-id="environment-form" ng-click="ctrl.openEnvironmentForm(environment.id)">Edit</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" ng-hide="ctrl.project.environments.length">No environments were found.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row clearfix links-header">
+      <h2 class="left clearfix">Links</h2>
+      <div class="small-3 medium-3 large-3 right create-new-environment">
+        <button class="button tiny secondary right" data-reveal-id="link-form" ng-click="ctrl.openLinkForm()">Create new
+          link
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <table>
+        <thead>
+        <tr>
+          <!--<th class="drag-header"></th>-->
+          <th>Text</th>
+          <th>Url</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="link in ctrl.project.links track by $index">
+          <!--<td class="ui-draggable-handle"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></td>-->
+          <td>{{ link.text }}</td>
+          <td><a href="{{ link.url }}">{{ link.url }}</a></td>
+          <td><span class="link" data-reveal-id="link-form" ng-click="ctrl.openLinkForm(link.id)">Edit</span></td>
+        </tr>
+        <tr>
+          <td colspan="3" ng-hide="ctrl.project.links.length">No links were found.</td>
+        </tr>
+        </tbody>
+
+      </table>
+    </div>
+
+  </form>
+
+</div>
+
+
+<div id="environment-form" class="reveal-modal tiny" data-reveal aria-hidden="true" role="dialog">
+  <div ng-controller="environmentForm as ctrl">
+
+    <h2>{{ ctrl.title }}</h2>
+
+    <form ng-submit="ctrl.submit()" action="{{ ctrl.projectUrl }}">
+
+      <div class="row">
+        <div class="columns">
+          <div>Enabled</div>
+          <div class="switch">
+            <input id="exampleCheckboxSwitch" type="checkbox" ng-model="ctrl.environment.status">
+            <label for="exampleCheckboxSwitch"></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-12 columns">
+          <label>Name:
+            <input type="text" placeholder="Localhost" required ng-model="ctrl.environment.name"/>
+          </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="columns">
+          <label>Base URL:
+            <input type="url" placeholder="http://example.local" required ng-model="ctrl.environment.baseUrl"/>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-12 columns">
+          <ul class="button-group environment-buttons">
+            <li>
+              <button class="button small">Save</button>
+            </li>
+            <li ng-hide="ctrl.isNew">
+              <span class="button small alert close-modal" ng-click="ctrl.removeEnvironment()">Delete</span>
+            </li>
+            <li>
+              <span class="button small secondary close-modal" ng-click="ctrl.cancel()">Cancel</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+  <span class="close-link close-modal" aria-label="Close">&#215;</span>
+</div>
+
+
+<div id="link-form" class="reveal-modal tiny" data-reveal aria-hidden="true" role="dialog">
+  <div ng-controller="linkForm as ctrl">
+
+    <h2>{{ ctrl.title }}</h2>
+
+    <form ng-submit="ctrl.saveLink()" action="{{ ctrl.projectUrl }}">
+
+      <div class="row">
+        <div class="large-12 columns">
+          <label>Text:
+            <input type="text" placeholder="Localhost" required ng-model="ctrl.link.text"/>
+          </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="columns">
+          <label>URL:
+            <input type="url" placeholder="http://readmine.example.com/project/example/issues" required ng-model="ctrl.link.url"/>
+          </label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="columns">
+          <ul class="button-group environment-buttons">
+            <li>
+              <button class="button small">Save</button>
+            </li>
+            <li ng-hide="ctrl.isNew">
+              <span class="button small alert close-modal" ng-click="ctrl.removeLink()">Delete</span>
+            </li>
+            <li>
+              <span class="button small secondary close-modal" ng-click="ctrl.cancel()">Cancel</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+  <span class="close-link close-modal" aria-label="Close">&#215;</span>
+</div>
+
+<script>
+  $(function () {
+    $('.reveal-modal form').submit(function () {
+      setTimeout(function () {
+        $(document).foundation('reveal', 'close');
+      }, 10);
+
+    });
+
+    $(document).foundation(
+      {
+        reveal: {
+          dismiss_modal_class: 'close-modal'
+        }
+      }
+    )
+  });
+</script>
