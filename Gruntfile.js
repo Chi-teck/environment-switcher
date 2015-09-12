@@ -46,6 +46,13 @@ module.exports = function (grunt) {
                 }
             }
         },
+        jshint: {
+            beforeconcat: ['options/options.js', 'popup/popup.js', 'background/background.js'],
+            options: {
+                validthis: true,
+                //"-W041": false
+            }
+        },
         crx: {
             "environment-switcher": {
                 "src": "dist",
@@ -60,6 +67,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-processhtml');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-crx');
 
     var defaultTasks = [
@@ -67,6 +75,7 @@ module.exports = function (grunt) {
         'copy',
         'concat',
         'processhtml',
+        'jshint'
         //'crx'
     ];
     grunt.registerTask('default', defaultTasks);

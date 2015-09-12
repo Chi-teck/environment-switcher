@@ -13,7 +13,7 @@
                 projectStorageInit: ['projectStorage', '$route', '$filter', '$q', function (projectStorage, $route, $filter, $q) {
                     return projectStorage.init();
                 }]
-            }
+            };
         }
 
         $routeProvider
@@ -46,11 +46,11 @@
     function enabledDisabledFilter() {
         return function (input) {
             return input ? 'Enabled' : 'Disabled';
-        }
+        };
     }
 
     //--
-    app.controller('sidebar', ['$routeParams', 'projectStorage', 'idGenerator', '$location', sidebarController]);
+    app.controller('sidebar', ['$routeParams', 'projectStorage', 'idGenerator', '$location', '$window', sidebarController]);
     function sidebarController($routeParams, projectStorage, idGenerator, $location) {
         var self = this;
 
@@ -70,7 +70,6 @@
         };
 
         self.createProject = function () {
-
 
             var project = {
                 id: idGenerator(),
@@ -96,10 +95,54 @@
             }
             projectStorage.save();
             $location.path('/');
-        }
+        };
+
+        self.exportProjects = function() {
+            var a = document.createElement('a');
+            var file = new Blob([JSON.stringify(self.projects, null, 2)], {type: 'application/json'});
+            a.href = URL.createObjectURL(file);
+            a.download = 'es-projects.json';
+            a.click();
+        };
+
+        self.importProjects = function() {
+
+            var fileUpload = document.createElement("input");
+            fileUpload.type = "file";
+            fileUpload.click();
+            fileUpload.addEventListener("change", function (evt) {
+                var file = evt.target.files[0];
+                console.log(file);
+
+                var reader = new FileReader();
+
+                // Closure to capture the file information.
+                reader.onload = (function(theFile) {
+                    return function(e) {
+
+                        console.log(e.target.result);
+                        projectStorage.projects = JSON.parse(e.target.result);
+                        projectStorage.save();
+
+                        projectStorage.init().then(function (projectsData) {
+                            self.projects = projectStorage.getAll();
+                        });
+
+                    };
+                })(file);
+
+                // Read in the image file as a data URL.
+                reader.readAsText(file);
+
+            });
+
+        };
+
+        self.openSourceCode = function() {
+            window.location = "https://github.com/Chi-teck/environment-switcher";
+        };
 
     }
-
 
     //--
     app.controller('projectForm', ['$routeParams', 'projectStorage', '$scope', 'projectStorageInit', projectFormController]);
@@ -118,26 +161,26 @@
 
         self.openLinkForm = function (environmentId) {
             $scope.$broadcast('link-form', environmentId);
-        }
+        };
 
     }
-
 
     //--
     app.factory('projectStorage', ['$filter', '$q', projectStorageFactory]);
     function projectStorageFactory($filter, $q) {
 
         return new function () {
-            var projects = [];
+            this.projects = [];
 
             this.init = function () {
+                var self = this;
                 var deferred = $q.defer();
-                if (projects.length > 0) {
+                if (this.projects.length > 0) {
                     deferred.resolve();
                 }
                 else {
                     chrome.storage.sync.get('projects', function (data) {
-                        projects = data.projects || [];
+                        self.projects = data.projects || [];
                         deferred.resolve();
                     });
                 }
@@ -145,16 +188,16 @@
             };
 
             this.getAll = function () {
-                return projects;
+                return this.projects;
             };
 
             this.getOne = function (projectId) {
-                return $filter('filter')(projects, {id: projectId})[0];
+                return $filter('filter')(this.projects, {id: projectId})[0];
             };
 
             this.save = function () {
                 //var project = this.getOne(newProject.id);
-                chrome.storage.sync.set({projects: projects});
+                chrome.storage.sync.set({projects: this.projects});
             };
 
         };
@@ -205,7 +248,7 @@
                 self.environment = {
                     id: idGenerator(),
                     status: true
-                }
+                };
             }
 
             self.title = self.isNew ? 'Create environment' : 'Edit environment';
@@ -221,7 +264,7 @@
                 project.environments.push(storedEnvironment);
 
             }
-            projectStorage.save(project);
+            projectStorage.save();
 
             $route.reload();
         };
@@ -262,7 +305,7 @@
                 self.link = {
                     id: idGenerator(),
                     status: true
-                }
+                };
             }
             self.title = self.isNew ? 'Create link' : 'Edit link';
         });

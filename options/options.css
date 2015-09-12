@@ -158,3 +158,35 @@ h2 {
 .button.tiny {
   font-size: 14px;
 }
+
+#global-actions {
+  bottom: 0;
+  width: 220px;
+  position: absolute;
+  border-top: solid 1px #999;
+  padding: 10px 5px 0 0;
+  list-style: none;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+
+}
+#global-actions li {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+#export-projects {
+  background: url(../images/export.png) no-repeat;
+
+}
+#import-projects {
+  background: url(../images/import.png) no-repeat;
+}
+#github-link {
+  background: url(../images/octocat.png) no-repeat;
+  background-position-y: 2px;
+  margin-left: 7px;
+}
