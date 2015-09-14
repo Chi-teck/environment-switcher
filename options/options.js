@@ -56,14 +56,14 @@
 
         self.projects = [];
 
-        projectStorage.init().then(function (projectsData) {
-            self.projects = projectStorage.getAll();
+        projectStorage.init().then(function () {
+            console.log('iiiiiiiiiiii');
+            self.projects = projectStorage.projects;
         });
 
         self.isActive = function (projectId) {
             return projectId == $routeParams.projectId;
         };
-
 
         self.stageProject = function (projectId) {
             self.stagedProject = projectStorage.getOne(projectId);
