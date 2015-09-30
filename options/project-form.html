@@ -22,28 +22,25 @@
       <table id="project-environments">
         <thead>
         <tr>
-          <!--<th class="drag-header"></th>-->
           <th>Name</th>
-          <th>Base URL</th>
           <th>Status</th>
-          <th>Actions</th>
+          <th>Base URL</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="environment in ctrl.project.environments track by $index">
-          <!--<td class="ui-draggable-handle"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></td>-->
-          <td>{{ environment.name }}</td>
-          <td><a href="{{ environment.baseUrl }}">{{ environment.baseUrl }}</a></td>
+          <td>
+            <span class="link" data-reveal-id="environment-form" ng-click="ctrl.openEnvironmentForm(environment.id)">{{ environment.name }}</span>
+          </td>
           <td>
             <span ng-class="{ 'enabled': environment.status, 'disabled': !environment.status }">{{ environment.status | enabledDisabled }}</span>
           </td>
           <td>
-            <!--href="#/project/{{ctrl.project.id}}/{{environment.id }}"-->
-            <span class="link" data-reveal-id="environment-form" ng-click="ctrl.openEnvironmentForm(environment.id)">Edit</span>
+            <a href="{{ environment.baseUrl }}">{{ environment.baseUrl }}</a>
           </td>
         </tr>
         <tr>
-          <td colspan="3" ng-hide="ctrl.project.environments.length">No environments were found.</td>
+          <td colspan="2" ng-hide="ctrl.project.environments.length">No environments were found.</td>
         </tr>
         </tbody>
       </table>
@@ -58,25 +55,24 @@
     <div class="row">
       <table id="project-links">
         <thead>
-        <tr>
-          <!--<th class="drag-header"></th>-->
-          <th>Text</th>
-          <th>Url</th>
-          <th>Actions</th>
-        </tr>
+          <tr>
+            <th>Text</th>
+            <th>Url</th>
+          </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="link in ctrl.project.links track by $index">
-          <!--<td class="ui-draggable-handle"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></td>-->
-          <td>{{ link.text }}</td>
-          <td><a href="{{ link.url }}">{{ link.url }}</a></td>
-          <td><span class="link" data-reveal-id="link-form" ng-click="ctrl.openLinkForm(link.id)">Edit</span></td>
-        </tr>
-        <tr>
-          <td colspan="3" ng-hide="ctrl.project.links.length">No links were found.</td>
-        </tr>
+          <tr ng-repeat="link in ctrl.project.links track by $index">
+            <td>
+              <span class="link" data-reveal-id="link-form" ng-click="ctrl.openLinkForm(link.id)">{{ link.text }}</span>
+            </td>
+            <td>
+              <a href="{{ link.url }}">{{ link.url }}</a>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" ng-hide="ctrl.project.links.length">No links were found.</td>
+          </tr>
         </tbody>
-
       </table>
     </div>
 

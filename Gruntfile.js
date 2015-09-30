@@ -1,20 +1,22 @@
 module.exports = function (grunt) {
 
-    var projectFiles = [
-        'manifest.json',
-        'popup/*',
-        'options/*',
-        'background/*',
-        'images/*.png'
-    ];
-
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: ['dist/*'],
         copy: {
             main: {
                 files: [
-                    {expand: true, src: projectFiles, dest: 'dist/'}
+                    {
+                        expand: true,
+                        src: [
+                            'manifest.json',
+                            'popup/*',
+                            'options/*',
+                            'background/*',
+                            'images/*.png'
+                        ],
+                        dest: 'dist/'
+                    }
                 ]
             }
         },
@@ -56,16 +58,18 @@ module.exports = function (grunt) {
             }
         },
         crx: {
-            "environment-switcher": {
-                "src": "dist",
-                "dest": "dist/environment-switcher.crx",
-                "privateKey": "~/.ssh/test-key.pem"
+            'environment-switcher': {
+                src: 'dist',
+                dest: 'dist/environment-switcher.crx',
+                privateKey: '~/.ssh/test-key.pem'
             }
         },
         'http-server': {
             dev: {
                 port: 8000,
-                host: "127.0.0.1",
+                host: '127.0.0.1',
+                // Do not log requests.
+                logFn: function(req, res, error) {},
                 runInBackground: true
             }
         },
