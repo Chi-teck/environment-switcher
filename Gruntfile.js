@@ -52,8 +52,7 @@ module.exports = function (grunt) {
         jshint: {
             beforeconcat: ['options/options.js', 'popup/popup.js', 'background/background.js'],
             options: {
-                validthis: true,
-                //"-W041": false
+                validthis: true
             }
         },
         crx: {
@@ -63,19 +62,33 @@ module.exports = function (grunt) {
                 "privateKey": "~/.ssh/test-key.pem"
             }
         },
+        'http-server': {
+            dev: {
+                port: 8000,
+                host: "127.0.0.1",
+                runInBackground: true
+            }
+        },
+
+        protractor_webdriver: {
+            dev: {
+                options: {
+                    path: ''
+                }
+            }
+        },
+
         protractor: {
             options: {
-                configFile: "protractor.conf.js", // Default config file
-                keepAlive: true, // If false, the grunt process stops when the test fails.
-                noColor: false, // If true, protractor will not use colors in its output.
-                args: {
-                    // Arguments passed to the command
-                }
+                configFile: "protractor.conf.js",
+                keepAlive: true,
+                noColor: false,
+                args: {}
             },
-            your_target: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
+            dev: {
                 options: {
-                    configFile: "protractor.conf.js", // Target-specific config file
-                    args: {} // Target-specific arguments
+                    configFile: "protractor.conf.js",
+                    args: {}
                 }
             }
         }
@@ -88,22 +101,27 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-crx');
     grunt.loadNpmTasks('grunt-protractor-runner');
+    grunt.loadNpmTasks('grunt-http-server');
+    grunt.loadNpmTasks('grunt-protractor-webdriver');
 
     var defaultTasks = [
         'clean',
         'copy',
         'concat',
-        'processhtml',
+        'processhtml'
         //'jshint'
         //'crx'
     ];
     grunt.registerTask('default', defaultTasks);
 
     var testTasks = [
+        'http-server',
         'clean',
         'copy',
         'concat',
         'processhtml',
+        // @TODO: Find a way to start webdriver automatically.
+        //'protractor_webdriver',
         'protractor'
     ];
     grunt.registerTask('test', testTasks);

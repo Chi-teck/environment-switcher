@@ -1,6 +1,6 @@
 describe('Environment switcher:', function() {
 
-    "use strict";
+    'use strict';
 
     beforeEach(function() {
         browser.get('#/');
@@ -38,6 +38,8 @@ describe('Environment switcher:', function() {
         element.submit();
         browser.sleep(delay);
     }
+
+    var firstTr = 'tbody tr:nth-child(1)';
 
     var projects = ['Foo', 'Bar', 'Baz'];
 
@@ -80,7 +82,6 @@ describe('Environment switcher:', function() {
     };
 
     it('App initialization', function() {
-
         expect(browser.getTitle()).toEqual('Environments');
         expectText(sidebar.createNewProjectButton).toBe('Create new project');
 
@@ -93,10 +94,9 @@ describe('Environment switcher:', function() {
         expect(sidebar.globalActionsLinks.get(0).getAttribute('title')).toBe('Export projects');
         expect(sidebar.globalActionsLinks.get(1).getAttribute('title')).toBe('Import projects');
         expect(sidebar.globalActionsLinks.get(2).getAttribute('title')).toBe('Open source code');
-
     });
 
-    it('Project switcher', function() {
+    it('Project switching', function() {
         for (var i = 0; i < 3; i++) {
             var projectButton = sidebar.projectsButtons.get(i);
             projectButton.click();
@@ -110,22 +110,22 @@ describe('Environment switcher:', function() {
         expect(projectForm.nameField.getAttribute('value')).toBe('New project');
         projectForm.nameField.clear().sendKeys('Example');
         expectText(sidebar.projectsButtons.first()).toBe('Example');
-        expectText(projectForm.environmentsTable, 'tbody tr:nth-child(1)').toBe('No environments were found.');
+        expectText(projectForm.environmentsTable, firstTr).toBe('No environments were found.');
 
         click(projectForm.createNewEnvironmentButton);
         expect(environmentForm.wrapper.isDisplayed()).toBeTruthy();
         environmentForm.nameField.sendKeys('Localhost');
         environmentForm.baseUrlField.sendKeys('http://example.local');
         submit(environmentForm.wrapper, 'form');
-        expectText(projectForm.environmentsTable, 'tbody tr').toBe('Localhost http://example.local Enabled Edit');
-        expectText(projectForm.linksTable, 'tbody td').toBe('No links were found.');
+        expectText(projectForm.environmentsTable, firstTr).toBe('Localhost http://example.local Enabled Edit');
+        expectText(projectForm.linksTable, firstTr).toBe('No links were found.');
 
         click(projectForm.createNewLinkButton);
         expect(linkForm.wrapper.isDisplayed()).toBeTruthy();
         linkForm.textField.sendKeys('Wiki');
         linkForm.urlField.sendKeys('http://redmine.local/projects/example/wiki');
         linkForm.wrapper.element(by.css('form')).submit();
-        expectText(projectForm.linksTable, 'tbody tr').toBe('Wiki http://redmine.local/projects/example/wiki Edit');
+        expectText(projectForm.linksTable, firstTr).toBe('Wiki http://redmine.local/projects/example/wiki Edit');
 
     });
 
@@ -136,34 +136,34 @@ describe('Environment switcher:', function() {
         expect(sidebar.projectsButtons.get(0).getText()).toBe("×\nFoo updated");
         expectText(sidebar.projectsButtons.get(0)).toBe("×\nFoo updated");
 
-        click(projectForm.environmentsTable, 'tbody tr:nth-child(1) td:nth-child(4) span');
+        click(projectForm.environmentsTable, firstTr + ' td:nth-child(4) span');
 
         environmentForm.statusCheckbox.click();
         environmentForm.nameField.sendKeys(' - updated');
         environmentForm.baseUrlField.sendKeys('-updated');
         submit(environmentForm.wrapper, 'form');
-        expectText(projectForm.environmentsTable, 'tbody tr:nth-child(1)').toBe('Production - updated http://foo.prod-updated Disabled Edit');
+        expectText(projectForm.environmentsTable, firstTr).toBe('Production - updated http://foo.prod-updated Disabled Edit');
 
-        click(projectForm.environmentsTable, 'tbody tr:nth-child(1) td:nth-child(4) span');
+        click(projectForm.environmentsTable, firstTr + ' td:nth-child(4) span');
         expectDisplayed(environmentForm.wrapper).toBeTruthy();
         click(environmentForm.closeButton);
         expectDisplayed(environmentForm.wrapper).toBeFalsy();
-        click(projectForm.environmentsTable, 'tbody tr:nth-child(1) td:nth-child(4) span');
+        click(projectForm.environmentsTable, firstTr + ' td:nth-child(4) span');
         expectDisplayed(environmentForm.wrapper).toBeTruthy();
         click(environmentForm.cancelButton);
         expectDisplayed(environmentForm.wrapper).toBeFalsy();
-        click(projectForm.environmentsTable, 'tbody tr:nth-child(1) td:nth-child(4) span');
+        click(projectForm.environmentsTable, firstTr + ' td:nth-child(4) span');
         click(environmentForm.deleteButton);
-        expectText(projectForm.environmentsTable, 'tbody tr:nth-child(1)').not.toBe('Production - updated http://foo.prod-updated Disabled Edit');
+        expectText(projectForm.environmentsTable, firstTr).not.toBe('Production - updated http://foo.prod-updated Disabled Edit');
 
-        click(projectForm.linksTable, 'tbody tr:nth-child(1) td:nth-child(3) span');
+        click(projectForm.linksTable, firstTr +' td:nth-child(3) span');
         linkForm.textField.sendKeys(' - updated');
         linkForm.urlField.sendKeys('-updated');
         submit(linkForm.wrapper, 'form');
          expectText(projectForm.linksTable, 'tbody tr:nth-child(1)').toBe('Wiki - updated http://projects.com/foo/wiki-updated Edit');
-        click(projectForm.linksTable, 'tbody tr:nth-child(1) td:nth-child(3) span');
+        click(projectForm.linksTable, firstTr +' td:nth-child(3) span');
         linkForm.deleteButton.click();
-        expectText(projectForm.linksTable, 'tbody tr:nth-child(1)').not.toBe('Wiki - updated http://projects.com/foo/wiki-updated Edit');
+        expectText(projectForm.linksTable, firstTr).not.toBe('Wiki - updated http://projects.com/foo/wiki-updated Edit');
     });
 
     it('Project deletion', function() {
@@ -219,7 +219,7 @@ describe('Environment switcher:', function() {
 
         sidebar.globalActionsLinks.get(1).click();
 
-        var uploadFile = element(by.css('input[type="file"]'));
+        var uploadFile = element(by.id('upload-projects'));
         var mockFile = 'projects-mock.json';
         var absolutemockFile = path.resolve(__dirname, mockFile);
 
@@ -229,8 +229,8 @@ describe('Environment switcher:', function() {
         expectText(sidebar.projectsButtons.get(0)).toBe('Foo mock');
         sidebar.projectsButtons.get(0).click();
         expect(projectForm.nameField.getAttribute('value')).toBe('Foo mock');
-        expectText(projectForm.environmentsTable, 'tbody tr').toBe('Localhost (mock) http://foo-mock.local Enabled Edit');
-        expectText(projectForm.linksTable, 'tbody tr').toBe('Wiki http://projects-mock.com/foo/wiki Edit');
+        expectText(projectForm.environmentsTable, firstTr).toBe('Localhost (mock) http://foo-mock.local Enabled Edit');
+        expectText(projectForm.linksTable, firstTr).toBe('Wiki http://projects-mock.com/foo/wiki Edit');
 
     });
 

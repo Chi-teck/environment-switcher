@@ -107,7 +107,7 @@
         self.importProjects = function() {
 
             // We have to keep this element in the DOM for the purpose of testing.
-            var fileUpload = document.getElementById("export-projects-field");
+            var fileUpload = document.getElementById('upload-projects');
             fileUpload.type = "file";
             fileUpload.click();
             fileUpload.addEventListener("change", function (evt) {
