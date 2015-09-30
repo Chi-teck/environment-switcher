@@ -1,17 +1,23 @@
 exports.config = {
-// The address of a running Selenium server
     seleniumAddress: 'http://localhost:4444/wd/hub',
-// The URL where the server we are testing is running
-    baseUrl: 'chrome://extensions',
-// Capabilities to be passed to the WebDriver instance
+    baseUrl: 'http://localhost:8000/dist/options/options.html?',
     capabilities: {
         browserName: 'chrome',
+        'chromeOptions': {
+            // Get rid of --ignore-certificate yellow warning
+            args: ['--no-sandbox', '--test-type=browser'],
+            // Set download path and avoid prompting for download even though
+            // this is already the default on Chrome but for completeness
+            prefs: {
+                'download': {
+                    //'prompt_for_download': false,
+                    'default_directory': '/tmp',
+                },
+            },
+        },
     },
-// Spec patterns are relative to the location of the
-// spec file. They may include glob patterns.
-    specs: ['*Spec*.js'],
-// Options to be passed to Jasmine-node
+    specs: ['tests/protractor-spec.js'],
     jasmineNodeOpts: {
-        showColors: true // Use colors in the command-line report
+        showColors: true
     }
 };

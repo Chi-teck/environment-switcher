@@ -57,7 +57,6 @@
         self.projects = [];
 
         projectStorage.init().then(function () {
-            console.log('iiiiiiiiiiii');
             self.projects = projectStorage.projects;
         });
 
@@ -99,7 +98,7 @@
 
         self.exportProjects = function() {
             var a = document.createElement('a');
-            var file = new Blob([JSON.stringify(self.projects, null, 2)], {type: 'application/json'});
+            var file = new Blob([JSON.stringify(self.projects, null, 4)], {type: 'application/json'});
             a.href = URL.createObjectURL(file);
             a.download = 'es-projects.json';
             a.click();
@@ -107,23 +106,22 @@
 
         self.importProjects = function() {
 
-            var fileUpload = document.createElement("input");
+            // We have to keep this element in the DOM for the purpose of testing.
+            var fileUpload = document.getElementById("export-projects-field");
             fileUpload.type = "file";
             fileUpload.click();
             fileUpload.addEventListener("change", function (evt) {
+
                 var file = evt.target.files[0];
-                console.log(file);
 
                 var reader = new FileReader();
 
                 // Closure to capture the file information.
                 reader.onload = (function(theFile) {
-                    return function(e) {
 
-                        console.log(e.target.result);
+                    return function(e) {
                         projectStorage.projects = JSON.parse(e.target.result);
                         projectStorage.save();
-
                         projectStorage.init().then(function (projectsData) {
                             self.projects = projectStorage.getAll();
                         });
@@ -131,7 +129,6 @@
                     };
                 })(file);
 
-                // Read in the image file as a data URL.
                 reader.readAsText(file);
 
             });

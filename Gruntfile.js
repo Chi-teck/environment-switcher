@@ -5,9 +5,7 @@ module.exports = function (grunt) {
         'popup/*',
         'options/*',
         'background/*',
-        'images/16.png',
-        'images/32.png',
-        'images/64.png'
+        'images/*.png'
     ];
 
     grunt.initConfig({
@@ -44,6 +42,11 @@ module.exports = function (grunt) {
                 files: {
                     'dist/options/options.html': ['dist/options/options.html']
                 }
+            },
+            test: {
+                files: {
+                    'dist/options/options.html': ['dist/options/options.html']
+                }
             }
         },
         jshint: {
@@ -59,8 +62,23 @@ module.exports = function (grunt) {
                 "dest": "dist/environment-switcher.crx",
                 "privateKey": "~/.ssh/test-key.pem"
             }
+        },
+        protractor: {
+            options: {
+                configFile: "protractor.conf.js", // Default config file
+                keepAlive: true, // If false, the grunt process stops when the test fails.
+                noColor: false, // If true, protractor will not use colors in its output.
+                args: {
+                    // Arguments passed to the command
+                }
+            },
+            your_target: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
+                options: {
+                    configFile: "protractor.conf.js", // Target-specific config file
+                    args: {} // Target-specific arguments
+                }
+            }
         }
-
     });
 
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -69,14 +87,25 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-crx');
+    grunt.loadNpmTasks('grunt-protractor-runner');
 
     var defaultTasks = [
         'clean',
         'copy',
         'concat',
         'processhtml',
-        'jshint'
+        //'jshint'
         //'crx'
     ];
     grunt.registerTask('default', defaultTasks);
+
+    var testTasks = [
+        'clean',
+        'copy',
+        'concat',
+        'processhtml',
+        'protractor'
+    ];
+    grunt.registerTask('test', testTasks);
+
 };

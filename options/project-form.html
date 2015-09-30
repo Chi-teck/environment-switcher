@@ -6,7 +6,7 @@
 
     <div class="row clearfix">
       <div class="large-6 left">
-        <input type="text" placeholder="Example project" ng-model="ctrl.project.name" ng-model-options='{debounce: 50, getterSetter: true}' ng-change="ctrl.change()"/>
+        <input id="project-name" type="text" placeholder="Example project" ng-model="ctrl.project.name" ng-model-options='{debounce: 50, getterSetter: true}' ng-change="ctrl.change()"/>
       </div>
     </div>
 
@@ -14,12 +14,12 @@
       <h2 class="left clearfix">Environments</h2>
 
       <div class="small-3 medium-3 large-3 right create-new-environment">
-        <span class="button tiny secondary right" data-reveal-id="environment-form" ng-click="ctrl.openEnvironmentForm()">Create new environment</span>
+        <button class="button tiny secondary right" data-reveal-id="environment-form" ng-click="ctrl.openEnvironmentForm()">Create new environment</button>
       </div>
     </div>
 
     <div class="row">
-      <table>
+      <table id="project-environments">
         <thead>
         <tr>
           <!--<th class="drag-header"></th>-->
@@ -51,14 +51,12 @@
 
     <div class="row clearfix links-header">
       <h2 class="left clearfix">Links</h2>
-      <div class="small-3 medium-3 large-3 right create-new-environment">
-        <button class="button tiny secondary right" data-reveal-id="link-form" ng-click="ctrl.openLinkForm()">Create new
-          link
-        </button>
+      <div class="small-3 medium-3 large-3 right create-new-link">
+        <button class="button tiny secondary right" data-reveal-id="link-form" ng-click="ctrl.openLinkForm()">Create new link</button>
       </div>
     </div>
     <div class="row">
-      <table>
+      <table id="project-links">
         <thead>
         <tr>
           <!--<th class="drag-header"></th>-->
@@ -126,10 +124,10 @@
               <button class="button small">Save</button>
             </li>
             <li ng-hide="ctrl.isNew">
-              <span class="button small alert close-modal" ng-click="ctrl.removeEnvironment()">Delete</span>
+              <span id="delete-environment" class="button small alert close-modal" ng-click="ctrl.removeEnvironment()">Delete</span>
             </li>
             <li>
-              <span class="button small secondary close-modal" ng-click="ctrl.cancel()">Cancel</span>
+              <span id="close-environment-form" class="button small secondary close-modal" ng-click="ctrl.cancel()">Cancel</span>
             </li>
           </ul>
         </div>
@@ -173,7 +171,7 @@
               <button class="button small">Save</button>
             </li>
             <li ng-hide="ctrl.isNew">
-              <span class="button small alert close-modal" ng-click="ctrl.removeLink()">Delete</span>
+              <span id="delete-link" class="button small alert close-modal" ng-click="ctrl.removeLink()">Delete</span>
             </li>
             <li>
               <span class="button small secondary close-modal" ng-click="ctrl.cancel()">Cancel</span>
