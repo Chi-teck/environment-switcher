@@ -11,8 +11,6 @@
     "grunt-crx": "~0.3.4",
     "grunt-contrib-jshint": "~0.11.1",
     "grunt-protractor-runner": "~2.1.0",
-    "connect": "~3.4.0",
-    "serve-static": "~1.10.0",
     "time-grunt": "~1.1.0",
     "grunt-serve": "~0.1.6",
     "grunt-http-server": "~1.10.1",

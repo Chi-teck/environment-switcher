@@ -1,7 +1,7 @@
 (function () {
 
     'use strict';
-    var c = console;
+
     var app = angular.module('app', ['ngRoute']);
 
     //--

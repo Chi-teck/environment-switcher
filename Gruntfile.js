@@ -54,7 +54,8 @@ module.exports = function (grunt) {
         jshint: {
             beforeconcat: ['options/options.js', 'popup/popup.js', 'background/background.js'],
             options: {
-                validthis: true
+                validthis: true,
+                "-W041": false
             }
         },
         crx: {
@@ -112,9 +113,9 @@ module.exports = function (grunt) {
         'clean',
         'copy',
         'concat',
-        'processhtml'
+        'processhtml',
         //'jshint'
-        //'crx'
+        'crx'
     ];
     grunt.registerTask('default', defaultTasks);
 

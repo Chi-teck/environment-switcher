@@ -1,74 +1,67 @@
 <!doctype html>
 <html class="no-js" lang="en" ng-app="app">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Environments</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Environments</title>
 
-  <!-- build:css ../vendor.css -->
-  <link rel="stylesheet" href="../vendor/foundation/css/foundation.css">
-  <link rel="stylesheet" href="../vendor/jquery-ui/themes/smoothness/jquery-ui.min.css">
-  <!-- /build -->
+    <!-- build:css ../vendor.css -->
+    <link rel="stylesheet" href="../vendor/foundation/css/foundation.css">
+    <!-- /build -->
 
-  <!-- build:include:test ../../tests/mocks.html--><!-- /build -->
+    <!-- build:include:test ../../tests/mocks.html--><!-- /build -->
 
-  <!-- build:js ../vendor.js -->
-  <script src="../vendor/jquery/dist/jquery.min.js"></script>
-  <script src="../vendor/jquery-ui/jquery-ui.min.js"></script>
-  <script src="../vendor/foundation/js/vendor/modernizr.js"></script>
-  <script src="../vendor/foundation/js/foundation.min.js"></script>
-  <script src="../vendor/angular/angular.min.js"></script>
-  <script src="../vendor/angular-route/angular-route.min.js"></script>
-  <!-- /build -->
+    <!-- build:js ../vendor.js -->
+    <script src="../vendor/jquery/dist/jquery.min.js"></script>
+    <script src="../vendor/foundation/js/vendor/modernizr.js"></script>
+    <script src="../vendor/foundation/js/foundation.min.js"></script>
+    <script src="../vendor/angular/angular.min.js"></script>
+    <script src="../vendor/angular-route/angular-route.min.js"></script>
+    <!-- /build -->
 
-  <link rel="stylesheet" href="options.css"/>
-  <script src="options.js"></script>
+    <link rel="stylesheet" href="options.css"/>
+    <script src="options.js"></script>
 </head>
 <body>
 
 <div class="sidebar" ng-controller="sidebar as ctrl">
-  <button class="button small create-new-project" ng-click="ctrl.createProject()">Create new project</button>
-  <ul class="projects">
-    <li ng-repeat="project in ctrl.projects track by $index">
-      <a href="#/project/{{project.id}}" ng-class="{active: ctrl.isActive(project.id)}" class="project-link">
-        <span class="delete-project-link" data-reveal-id="project-delete-confirm" ng-click="ctrl.stageProject(project.id)">&#215;</span>
-        {{ project.name }}
-      </a>
-    </li>
-  </ul>
-
-  <div id="project-delete-confirm" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-
-    <h2 id="modalTitle">Remove project</h2>
-
-    <div class="row">
-      <p>
-        Are you sure you want to remove "{{ ctrl.stagedProject.name}}"?<br/>
-        This action cannot be undone.
-      </p>
+    <button class="button small create-new-project" ng-click="ctrl.createProject()">Create new project</button>
+    <ul class="projects">
+        <li ng-repeat="project in ctrl.projects track by $index">
+            <a href="#/project/{{project.id}}" ng-class="{active: ctrl.isActive(project.id)}" class="project-link">
+                <span class="delete-project-link" data-reveal-id="project-delete-confirm" ng-click="ctrl.stageProject(project.id)">&#215;</span>
+                {{ project.name }}
+            </a>
+        </li>
+    </ul>
+    <div id="project-delete-confirm" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+        <h2 id="modalTitle">Remove project</h2>
+        <div class="row">
+            <p>
+                Are you sure you want to remove "{{ ctrl.stagedProject.name}}"?<br/>
+                This action cannot be undone.
+            </p>
+        </div>
+        <div class="row">
+            <div class="large-12 columns">
+                <ul class="button-group environment-buttons">
+                    <li ng-hide="ctrl.isNew">
+                        <span id="delete-project" class="button small alert close-modal" ng-click="ctrl.deleteProject(ctrl.stagedProject.id)">Delete</span>
+                    </li>
+                    <li>
+                        <span id="close-delete-project-form" class="button small secondary close-modal">Cancel</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <span class="close-link close-modal" aria-label="Close">&#215;</span>
     </div>
-    <div class="row">
-      <div class="large-12 columns">
-        <ul class="button-group environment-buttons">
-          <li ng-hide="ctrl.isNew">
-            <span id="delete-project" class="button small alert close-modal" ng-click="ctrl.deleteProject(ctrl.stagedProject.id)">Delete</span>
-          </li>
-          <li>
-            <span id="close-delete-project-form" class="button small secondary close-modal">Cancel</span>
-          </li>
-        </ul>
-      </div>
-
-    </div>
-
-    <span class="close-link close-modal" aria-label="Close">&#215;</span>
-  </div>
-  <ul id="global-actions">
-      <li id="import-projects" ng-click="ctrl.importProjects()" title="Import projects"></li>
-    <li id="export-projects" ng-click="ctrl.exportProjects()" title="Export projects"></li>
-    <li id="github-link" ng-click="ctrl.openSourceCode()" title="Open source code"></li>
-  </ul>
-  <input type="file" id="upload-projects" style="display: none"/>
+    <ul id="global-actions">
+        <li id="import-projects" ng-click="ctrl.importProjects()" title="Import projects"></li>
+        <li id="export-projects" ng-click="ctrl.exportProjects()" title="Export projects"></li>
+        <li id="github-link" ng-click="ctrl.openSourceCode()" title="Open source code"></li>
+    </ul>
+    <input type="file" id="upload-projects" style="display: none"/>
 </div>
 
 <div ng-view class="view row content-frame"></div>

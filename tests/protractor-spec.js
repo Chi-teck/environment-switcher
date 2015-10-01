@@ -212,7 +212,6 @@ describe('Environment switcher:', function() {
 
     });
 
-
     it('Import', function() {
         var path = require('path');
 

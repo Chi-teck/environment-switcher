@@ -1,4 +1,5 @@
 chrome.storage.sync.get('projects', function (data) {
+
     'use strict';
 
     var projects = data.projects || [];
@@ -39,10 +40,6 @@ chrome.storage.sync.get('projects', function (data) {
         var listWrapper = document.createElement('ul');
         listWrapper.setAttribute('id', 'environments');
 
-        function addSeparator() {
-
-        }
-
         var items = [];
         if (project) {
 
@@ -78,7 +75,6 @@ chrome.storage.sync.get('projects', function (data) {
                 }
                 li.innerHTML = link.text;
                 items.push(li);
-                //listWrapper.appendChild(li);
             }
 
             if (i > 0) {
@@ -98,7 +94,7 @@ chrome.storage.sync.get('projects', function (data) {
         li.innerHTML = 'Options';
         items.push(li);
 
-        items.forEach(function(item) {
+        items.forEach(function (item) {
             listWrapper.appendChild(item);
         });
 
