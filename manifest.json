@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Environment switcher",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "description": "Switch between multiple site environments quickly and easily.",
     "background": {
         "persistent": false,
