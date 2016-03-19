@@ -235,7 +235,7 @@ describe('Environment switcher:', function() {
     it('Github link', function() {
         sidebar.globalActionsLinks.get(2).click();
         browser.ignoreSynchronization = true;
-        expect(browser.getTitle()).toEqual('Chi-teck/environment-switcher · GitHub');
+        expect(browser.getTitle()).toEqual('GitHub - Chi-teck/environment-switcher');
     });
 
 });
