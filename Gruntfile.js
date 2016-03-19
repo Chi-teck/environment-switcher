@@ -112,9 +112,9 @@ module.exports = function (grunt) {
         'clean',
         'copy',
         'concat',
-        'processhtml',
+        'processhtml:dist',
         //'jshint'
-        'crx'
+         'crx'
     ];
     grunt.registerTask('default', defaultTasks);
 
@@ -123,7 +123,7 @@ module.exports = function (grunt) {
         'clean',
         'copy',
         'concat',
-        'processhtml',
+        'processhtml:test',
         // @TODO: Find a way to start webdriver automatically.
         //'protractor_webdriver',
         'protractor'
