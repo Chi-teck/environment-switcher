@@ -112,9 +112,10 @@ module.exports = function (grunt) {
         'clean',
         'copy',
         'concat',
-        'processhtml:dist',
+        'processhtml:dist'
         //'jshint'
-         'crx'
+        // @see https://github.com/oncletom/grunt-crx/issues/56
+        //'crx'
     ];
     grunt.registerTask('default', defaultTasks);
 
