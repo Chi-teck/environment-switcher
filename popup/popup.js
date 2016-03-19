@@ -17,17 +17,22 @@ chrome.storage.sync.get('projects', function (data) {
         }
     }
 
-    function navigate(url) {
-        var tabOptions = {url: url};
+    /**
+     * Navigates to new URL.
+     *
+     * @param url
+     *   URL to navitage.
 
-        //ctrl was held down during the click.
-        if (window.event.ctrlKey) {
-            chrome.tabs.create(tabOptions);
-        }
-        else {
+     * @param create
+     *   Whether to open the URL in a new tab. Indicates that CTRL was held down
+     *   during the click or middle button was clicked.
+     */
+    function navigate(url, create) {
+        var tabOptions = {url: url};
+        create ?
+            chrome.tabs.create(tabOptions) :
             chrome.tabs.update(null, tabOptions);
-        }
-        window.close();
+         window.close();
     }
 
     function init(tabs) {
@@ -115,7 +120,8 @@ chrome.storage.sync.get('projects', function (data) {
                 else {
                     url = item.getAttribute('data-url');
                 }
-                navigate(url);
+
+                navigate(url,  e.ctrlKey || e.button == 1);
             }
 
         });
@@ -124,5 +130,4 @@ chrome.storage.sync.get('projects', function (data) {
     }
 
     chrome.tabs.query({active: true, currentWindow: true}, init);
-
 });
