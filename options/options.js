@@ -176,7 +176,7 @@
                     deferred.resolve();
                 }
                 else {
-                    chrome.storage.sync.get('projects', function (data) {
+                    chrome.storage.local.get('projects', function (data) {
                         self.projects = data.projects || [];
                         deferred.resolve();
                     });
@@ -194,7 +194,7 @@
 
             this.save = function () {
                 //var project = this.getOne(newProject.id);
-                chrome.storage.sync.set({projects: this.projects});
+                chrome.storage.local.set({projects: this.projects});
             };
 
         };

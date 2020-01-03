@@ -1,4 +1,4 @@
-chrome.storage.sync.get('projects', function (data) {
+chrome.storage.local.get('projects', function (data) {
 
     'use strict';
 
