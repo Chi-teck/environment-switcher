@@ -1,4 +1,1 @@
-.idea
-dist
-node_modules
-vendor
+/.idea/
