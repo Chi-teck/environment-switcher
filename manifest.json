@@ -3,11 +3,20 @@
     "name": "Environment switcher 2.0",
     "version": "2.0",
     "description": "Switch between multiple site environments quickly and easily.",
-    "permissions": ["storage"],
+    "permissions": ["storage", "tabs"],
     "options_page": "options/index.html",
     "icons": {
         "16": "images/16.png",
         "32": "images/32.png",
         "64": "images/64.png"
+    },
+    "action": {
+        "default_icon": {
+            "16": "images/16.png",
+            "32": "images/32.png",
+            "64": "images/64.png"
+        },
+        "default_title": "Google Mail",
+        "default_popup": "popup/popup.html"
     }
 }

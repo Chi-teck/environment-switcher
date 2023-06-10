@@ -1,8 +1,83 @@
+async function getCurrentUrl() {
+    let queryOptions = {active: true, currentWindow: true};
+    let [tab] = await chrome.tabs.query(queryOptions);
+    return tab.url;
+}
+
+
+function clickHandler(event) {
+    const tabOptions = {url:  event.target.dataset.url};
+    event.ctrlKey || event.type === 'auxclick' ?
+        chrome.tabs.create(tabOptions) :
+        chrome.tabs.update(null, tabOptions);
+    window.close();
+}
+
+function createItem(label, url, attributes) {
+    const li = document.createElement('li');
+    const button = document.createElement('button')
+    button.innerHTML = label;
+    button.dataset.url = url;
+    button.addEventListener('click', clickHandler)
+    button.addEventListener('auxclick', clickHandler)
+    li.appendChild(button);
+    return li;
+}
+
+
+async function init(data) {
+    const projects = data.projects || [];
+
+    const findProject = function (url) {
+        const checkEnvironment = environment => url.origin === environment.baseUrl;
+        const checkProject = project => project.environments.find(checkEnvironment);
+        return projects.find(checkProject);
+    }
+
+    const currentUrl = new URL(await getCurrentUrl());
+    const project = findProject(currentUrl);
+
+
+    const $list = document.createElement('ul');
+    $list.setAttribute('id', 'environments');
+
+
+    project.environments.forEach(environment => {
+        const item = $list.appendChild(
+            createItem(environment.name, environment.baseUrl +  currentUrl.pathname)
+        );
+        if (currentUrl.origin === environment.baseUrl) {
+            item.classList.add('active');
+        }
+    })
+
+    let path = 'options/index.html';
+    if (project) {
+       path += '#/project/' + project.id
+    }
+    $list.appendChild(createItem('Options', chrome.runtime.getURL(path)));
+
+
+    document.body.appendChild($list);
+}
+
+
+
+
+
+chrome.storage.sync.get().then(init);
+
+
 chrome.storage.sync.get('projects', function (data) {
 
     'use strict';
 
+    return;
+
     var projects = data.projects || [];
+
+    console.log(projects);
+
 
     function findProject(url) {
         for (var i = 0; i < projects.length; i++) {
@@ -38,6 +113,7 @@ chrome.storage.sync.get('projects', function (data) {
     function init(tabs) {
         var tab = tabs[0];
 
+
         var project = findProject(tab.url);
 
         var baseUrl, li, i;
@@ -70,18 +146,6 @@ chrome.storage.sync.get('projects', function (data) {
                 items.push(li);
             }
 
-            for (i = 0; i < project.links.length; i++) {
-                var link = project.links[i];
-                li = document.createElement('li');
-                li.setAttribute('data-url', link.url);
-                li.setAttribute('class', 'link');
-                if (i == 0) {
-                    li.classList.add('first');
-                }
-                li.innerHTML = link.text;
-                items.push(li);
-            }
-
             if (i > 0) {
                 li = document.createElement('li');
                 li.setAttribute('class', 'separator');
@@ -90,11 +154,11 @@ chrome.storage.sync.get('projects', function (data) {
         }
 
         li = document.createElement('li');
-        var path = 'options/options.html';
+        var path = 'options/index.html';
         if (project) {
             path += '#/project/' + project.id;
         }
-        li.setAttribute('data-url', chrome.extension.getURL(path));
+        li.setAttribute('data-url', chrome.runtime.getURL(path));;
         li.setAttribute('class', 'options');
         li.innerHTML = 'Options';
         items.push(li);
