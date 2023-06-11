@@ -1,7 +1,5 @@
 body {
     margin: 0;
-    padding: 0;
-    color: #333;
 }
 
 ul {
@@ -11,22 +9,36 @@ ul {
 }
 
 li {
+    padding: 3px;
+}
+
+button {
+    border-style: none;
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.35em 0.75em;
     cursor: pointer;
-    padding: 3px 7px;
-    margin: 3px;
-    white-space: nowrap;
+    background-color: transparent;
 }
 
-li:hover {
-    background-color: #EEE;
+button:hover {
+    background-color: #eee;
+}
+button:active {
+    background-color: #ccc;
+    transition: background-color 0.25s;
 }
 
-li.active {
-    background-color: #85e0ed;
+button:focus-visible {
+    outline: solid 2px #0986ab;
+    outline-offset: -2px;
 }
 
-.separator {
-    border-top: solid 1px #CCC;
-    height: 0;
-    padding: 0;
+li.active button {
+    background-color: #a4e6f1;
+}
+
+.options {
+    border-top: solid 1px #ccc;
 }

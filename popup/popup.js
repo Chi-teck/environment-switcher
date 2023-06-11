@@ -24,7 +24,6 @@ function createItem(label, url, attributes) {
     return li;
 }
 
-
 async function init(data) {
     const projects = data.projects || [];
 
@@ -55,7 +54,8 @@ async function init(data) {
     if (project) {
        path += '#/project/' + project.id
     }
-    $list.appendChild(createItem('Options', chrome.runtime.getURL(path)));
+    const item = $list.appendChild(createItem('Options', chrome.runtime.getURL(path)));
+    item.classList.add('options');
 
 
     document.body.appendChild($list);
