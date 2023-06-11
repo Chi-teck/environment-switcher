@@ -36,19 +36,20 @@ async function init(data) {
     const currentUrl = new URL(await getCurrentUrl());
     const project = findProject(currentUrl);
 
-
     const $list = document.createElement('ul');
     $list.setAttribute('id', 'environments');
 
+    if (project) {
+        project.environments.forEach(environment => {
+            const item = $list.appendChild(
+                createItem(environment.name, environment.baseUrl +  currentUrl.pathname)
+            );
+            if (currentUrl.origin === environment.baseUrl) {
+                item.classList.add('active');
+            }
+        })
+    }
 
-    project.environments.forEach(environment => {
-        const item = $list.appendChild(
-            createItem(environment.name, environment.baseUrl +  currentUrl.pathname)
-        );
-        if (currentUrl.origin === environment.baseUrl) {
-            item.classList.add('active');
-        }
-    })
 
     let path = 'options/index.html';
     if (project) {
