@@ -1,0 +1,146 @@
+:root, ::backdrop {
+  --ratio: 1.25;
+  --sm5: calc(var(--sm4) / var(--ratio));
+  --sm4: calc(var(--sm3) / var(--ratio));
+  --sm3: calc(var(--sm2) / var(--ratio));
+  --sm2: calc(var(--sm1) / var(--ratio));
+  --sm1: calc(var(--s0) / var(--ratio));
+  --s0: 1rem;
+  --sp1: calc(var(--s0) * var(--ratio));
+  --sp2: calc(var(--sp1) * var(--ratio));
+  --sp3: calc(var(--sp2) * var(--ratio));
+  --sp4: calc(var(--sp3) * var(--ratio));
+  --sp5: calc(var(--sp4) * var(--ratio));
+
+  --c-snow: #f5fafc;
+  --c-venice: #036281;
+  --c-bondy: #008cba;
+  --c-geyser: #c6e1ef;
+  --c-orange: orange;
+  --c-carmine: #b72f2f;
+  --c-banana: #ffe1b9;
+  --c-white: white;
+  --c-black: black;
+  --c-silver: #c2cbce;
+  --c-whale: #053949;
+
+  --c-border: var(--c-silver);
+  --c-input-shadow: var(--c-bondy);
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.6;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+               Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: var(--s0);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  color: var(--c-whale);
+}
+
+a {
+  color: var(--c-whale);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--c-black);
+  text-decoration: underline;
+}
+
+button {
+  font-size: 1em;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  line-height: 1;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  line-height: 1;
+}
+
+input[type=text], input[type=url] {
+  padding: 0.55rem 0.65rem;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  border: solid 1px var(--c-border);
+  max-width: 30rem;
+}
+
+input[type=text]:focus,
+input[type=url]:focus {
+  box-shadow: 0 0 3px var(--c-input-shadow);
+  transition: box-shadow 0.15s;
+}
+
+input[type=checkbox] {
+  accent-color: var(--c-bondy);
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border: solid 1px var(--c-geyser);
+}
+
+th {
+  background-color: var(--c-geyser);
+  padding: var(--sm4);
+}
+
+td {
+  background-color: var(--c-snow);
+  padding: var(--sm4);
+}
+
+button {
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: 0.15s;
+  border: solid 1px var(--c-whale);
+  background-color: var(--c-white);
+  color: var(--c-whale);
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+button.small {
+  font-size: 0.75em;
+  padding: 0.35em 0.75em;
+}
+
+button.primary {
+  background-color: var(--c-bondy);
+  color: var(--c-white);
+  border-color: var(--c-bondy);
+}
+
+button.primary:active {
+  background-color: var(--c-venice);
+}
+
+button.danger {
+  background-color: var(--c-white);
+  color: var(--c-carmine);
+  border-color: var(--c-carmine);
+}
+
+button.primary:active {
+  background-color: var(--c-venice);
+}
+
+*:focus-visible {
+  outline: solid 3px var(--c-bondy);
+  outline-offset: 2px;
+}
