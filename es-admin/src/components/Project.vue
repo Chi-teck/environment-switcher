@@ -82,6 +82,7 @@ export default {
         deleteEnvironment(id) {
             console.log(this.project.environments);
             const environments = this.project.environments.filter(environment => environment.id !== id);
+            console.log(environments);
             this.project.environments = toRaw(environments);
         },
         save() {

@@ -11,17 +11,16 @@ export default {
     },
     mounted() {
         store.onSave = this.onSave;
-        store
-            .getAll()
-            .then(projects => {this.projects = projects})
+        this.onSave();
     },
     methods: {
-        onSave(projects) {
-            this.projects = structuredClone(projects);
+        async onSave() {
+            this.projects = await store.getAll()
         },
-        createProject() {
-            store.create().then(
-                project => this.$router.push({ name: 'project', params: {id: project.id} }),
+        async createProject() {
+            const project = await store.create();
+            this.$router.push(
+                {name: 'project', params: {id: project.id}},
             );
         }
     }

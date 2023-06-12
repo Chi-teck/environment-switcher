@@ -29,7 +29,7 @@ export default {
 
     async setAll(projects) {
         await chrome.storage.sync.set({projects});
-        this.onSave(projects);
+        this.onSave();
     },
 
     async get(id) {
@@ -46,7 +46,7 @@ export default {
         const projects = await this.getAll();
         projects.push(draft);
         await chrome.storage.sync.set({projects});
-        this.onSave(projects);
+        this.onSave();
         return projects.find(createFinder(draft.id));
     },
 
@@ -56,8 +56,7 @@ export default {
         const index = projects.findIndex(createFinder(draft.id));
         projects[index] = draft;
         await chrome.storage.sync.set({projects});
-        console.log('UUU', projects);
-        this.onSave(projects);
+        this.onSave();
         return projects.find(createFinder(draft.id));
     },
 
@@ -66,7 +65,7 @@ export default {
         const index = projects.findIndex(createFinder(draft.id));
         projects.splice(index, 1);
         await chrome.storage.sync.set({projects});
-        this.onSave(projects);
+        this.onSave();
     },
 
     onSave: () => {},

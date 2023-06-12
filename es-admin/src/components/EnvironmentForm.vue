@@ -1,23 +1,28 @@
 <script>
 
+import {toRaw} from "vue";
+
+const defaultErrors = {name: null, baseUrl: null};
+
 export default {
     props: {
         environment: {type: Object, required: true},
     },
     data() {
         return {
-            errors: {baseUrl: null},
+            errors: structuredClone(defaultErrors),
             environment: structuredClone(this.$props.environment)
         }
     },
     methods: {
         reset() {
-            this.$data.errors =  {baseUrl: null};
+            this.$data.errors =  structuredClone(defaultErrors);
             this.$data.environment = structuredClone(this.$props.environment);
         },
         _onSubmit: function (event) {
 
-            this.errors = {name: null, baseUrl: null};
+            this.errors = structuredClone(defaultErrors);
+            console.log(this.errors)
 
             const elements = event.target.elements;
 
@@ -28,7 +33,7 @@ export default {
             if (!elements['base_url'].validity.valid) {
                 this.errors.baseUrl = elements['base_url'].validationMessage;
             }
-             else if (new URL(this.environment.baseUrl).pathname !== '/') {
+            else if (new URL(this.environment.baseUrl).pathname !== '/') {
                 this.errors.baseUrl = 'The URL should not include path.';
             }
             else if (this.environment.baseUrl.endsWith('/')) {
@@ -40,7 +45,7 @@ export default {
                 return;
             }
 
-            this.$emit('save', this.environment);
+            this.$emit('save', structuredClone(toRaw(this.environment)));
             this.reset();
         },
         _onCancel: function () {
@@ -58,7 +63,7 @@ export default {
         </div>
         <div class="form-item text-item" :class="{'has-errors': errors.name}">
             <label>Name</label>
-            <input type="text" name="name" required :value="environment.name"/>
+            <input type="text" name="name" required v-model="environment.name"/>
             <div class="error">{{ errors.name }}</div>
         </div>
         <div class="form-item text-item" :class="{'has-errors': errors.baseUrl}">
